@@ -1,0 +1,12 @@
+{
+    "dl_nav_bar": {
+        "description": "Open navigation bar settings under Display",
+        "deeplink": "bixby://dummy_positive",
+        "message": "Choose navigation type in Display settings"
+    },
+    "dl_battery": {
+        "description": "Open battery usage settings",
+        "deeplink": "bixby://settings/battery",
+        "message": "Check battery usage"
+    }
+}

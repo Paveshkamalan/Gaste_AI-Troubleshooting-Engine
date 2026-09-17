@@ -1,0 +1,10 @@
+{
+    "siis_nav_1": {
+        "text": "If swipe gestures move up or down instead of left or right, it might be due to a recent app installation or settings change. Go to Display settings, select Navigation bar, and verify your Swipe gestures settings.",
+        "topic": "Swipe Navigation"
+    },
+    "siis_battery_1": {
+        "text": "If your battery dies fast, you should check your battery usage to see which apps are draining it.",
+        "topic": "Battery"
+    }
+}
