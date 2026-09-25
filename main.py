@@ -1,5 +1,7 @@
 import time
-from fastapi import FastAPI, Header, HTTPException
+from pathlib import Path
+from fastapi import FastAPI, Header, HTTPException, Response
+from fastapi.responses import FileResponse
 from typing import Optional
 import database
 import engine
@@ -9,7 +11,13 @@ from schema import (
     InteractiveRequest, InteractiveResponse, ActionablePlan
 )
 
-app = FastAPI(title="GASTE API")
+app = FastAPI(title="GASTE API", docs_url=None, redoc_url="/redoc")
+
+DOCS_PAGE = Path(__file__).parent / "static" / "docs.html"
+
+@app.get("/docs", include_in_schema=False)
+def api_docs():
+    return FileResponse(DOCS_PAGE)
 
 startup_complete = False
 
@@ -30,7 +38,7 @@ def health_check():
     return {"status": "ok"}
 
 @app.post("/v1/troubleshoot", response_model=ContextDeeplinkResponse)
-def troubleshoot(request: TroubleshootRequest, x_session_id: Optional[str] = Header(None)):
+def troubleshoot(request: TroubleshootRequest, response: Response, x_session_id: Optional[str] = Header(None)):
     start_time = time.time()
     
     # Process
@@ -39,9 +47,7 @@ def troubleshoot(request: TroubleshootRequest, x_session_id: Optional[str] = Hea
     # Session handling
     if not x_session_id:
         session_id = session_manager.create_session(request.query)
-        # We can inject session ID in headers or payload in a real app, 
-        # but the schema ContextDeeplinkResponse doesn't have a session field.
-        # We'll just maintain it on backend for when they hit interactive endpoint.
+        response.headers["X-Session-ID"] = session_id
         
     latency_ms = int((time.time() - start_time) * 1000)
     print(f"Request latency: {latency_ms}ms")
