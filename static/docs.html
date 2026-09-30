@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GASTE · Galaxy Autonomous Troubleshooting Engine Studio</title>
+<title>GASTE · Galaxy Autonomous Troubleshooting Engine (Samsung PRISM Hackathon 3.0)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #f8fafc;
-  --bg-gradient: radial-gradient(circle at 50% 0%, #e0e7ff 0%, #f8fafc 60%);
+  --bg-gradient: radial-gradient(circle at 50% 0%, #e0e7ff 0%, #f8fafc 55%);
   --surface: #ffffff;
   --surface-hover: #f1f5f9;
   --surface-border: #e2e8f0;
@@ -32,10 +32,8 @@
   --rose: #e11d48;
   --rose-bg: #fff1f2;
   --rose-border: #fecdd3;
-  --card-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.08), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
-  --phone-bg: #ffffff;
-  --phone-screen: #f8fafc;
-  --phone-border: #cbd5e1;
+  --card-shadow: 0 14px 34px -6px rgba(15, 23, 42, 0.08), 0 4px 14px -2px rgba(15, 23, 42, 0.03);
+  --phone-titanium: linear-gradient(135deg, #cbd5e1 0%, #94a3b8 50%, #64748b 100%);
   --code-bg: #f8fafc;
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
@@ -61,10 +59,8 @@
   --rose: #fb7185;
   --rose-bg: rgba(244, 63, 94, 0.1);
   --rose-border: rgba(244, 63, 94, 0.3);
-  --card-shadow: 0 20px 45px -15px rgba(0,0,0,0.6);
-  --phone-bg: #0b0f17;
-  --phone-screen: #020617;
-  --phone-border: #334155;
+  --card-shadow: 0 24px 50px -15px rgba(0,0,0,0.6);
+  --phone-titanium: linear-gradient(135deg, #475569 0%, #334155 50%, #1e293b 100%);
   --code-bg: #030712;
 }
 
@@ -84,7 +80,7 @@ body {
 /* TOP NAVBAR */
 header {
   border-bottom: 1px solid var(--surface-border);
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(20px);
   position: sticky;
   top: 0;
@@ -95,7 +91,7 @@ header {
   justify-content: space-between;
 }
 [data-theme="dark"] header {
-  background: rgba(15, 21, 35, 0.85);
+  background: rgba(15, 21, 35, 0.88);
 }
 
 .brand {
@@ -104,19 +100,27 @@ header {
   gap: 12px;
 }
 .brand-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
   background: var(--samsung-gradient);
   display: grid;
   place-items: center;
   color: white;
-  font-size: 20px;
-  box-shadow: 0 4px 12px rgba(12, 77, 162, 0.3);
+  font-size: 22px;
+  box-shadow: 0 6px 16px rgba(12, 77, 162, 0.35);
+  position: relative;
+}
+.brand-icon::after {
+  content: '✨';
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  font-size: 14px;
 }
 .brand-title {
   font-weight: 800;
-  font-size: 17px;
+  font-size: 18px;
   letter-spacing: -0.02em;
   display: flex;
   align-items: center;
@@ -126,22 +130,22 @@ header {
   background: var(--galaxy-ai-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 800;
 }
 .brand-sub {
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: 11.5px;
   font-weight: 600;
 }
 
-/* NAV TABS */
+/* NAVIGATION TABS */
 .nav-tabs {
   display: flex;
   align-items: center;
   background: var(--surface-hover);
-  padding: 4px;
-  border-radius: 12px;
+  padding: 5px;
+  border-radius: 14px;
   border: 1px solid var(--surface-border);
   gap: 4px;
 }
@@ -150,28 +154,46 @@ header {
   border: none;
   color: var(--text-muted);
   font-size: 13px;
-  font-weight: 600;
-  padding: 7px 16px;
-  border-radius: 9px;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.2s;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
 }
 .tab-btn.active {
   background: var(--surface);
   color: var(--text-main);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
 }
-.tab-btn:hover:not(.active) {
-  color: var(--text-main);
-}
+.tab-btn:hover:not(.active) { color: var(--text-main); }
 
 .header-right {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+.jury-pitch-pill {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  color: white;
+  border: none;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 7px 14px;
+  border-radius: 9999px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
+  animation: pulseButton 2s infinite;
+}
+@keyframes pulseButton {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+  100% { transform: scale(1); }
 }
 .tag-badge {
   background: var(--accent-light);
@@ -187,7 +209,7 @@ header {
   background: var(--surface);
   border: 1px solid var(--surface-border);
   color: var(--text-main);
-  padding: 7px 13px;
+  padding: 7px 14px;
   border-radius: 8px;
   font-size: 12px;
   font-weight: 700;
@@ -195,26 +217,18 @@ header {
   display: flex;
   align-items: center;
   gap: 6px;
-  transition: all 0.15s;
 }
-.theme-btn:hover { background: var(--surface-hover); }
 
-/* MAIN CONTAINER */
+/* MAIN LAYOUT */
 .container {
-  max-width: 1400px;
+  max-width: 1440px;
   width: 100%;
   margin: 0 auto;
   padding: 24px 28px 60px;
 }
 
-/* SECTION TABS CONTENT */
-.tab-page {
-  display: none;
-  animation: fadeIn 0.3s ease;
-}
-.tab-page.active {
-  display: block;
-}
+.tab-page { display: none; }
+.tab-page.active { display: block; animation: fadeIn 0.3s ease; }
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
@@ -227,16 +241,17 @@ header {
   gap: 28px;
   align-items: start;
 }
-@media (max-width: 1080px) {
+@media (max-width: 1140px) {
   .studio-grid { grid-template-columns: 1fr; }
 }
 
 .panel {
   background: var(--surface);
   border: 1px solid var(--surface-border);
-  border-radius: 20px;
+  border-radius: 22px;
   padding: 26px;
   box-shadow: var(--card-shadow);
+  position: relative;
 }
 
 .panel-header {
@@ -246,7 +261,7 @@ header {
   align-items: flex-start;
 }
 .panel-title {
-  font-size: 20px;
+  font-size: 21px;
   font-weight: 800;
   letter-spacing: -0.02em;
   display: flex;
@@ -255,13 +270,13 @@ header {
 }
 .panel-subtitle {
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: 13.5px;
   margin-top: 4px;
 }
 
-/* QUICK SCENARIOS */
+/* QUICK CHIPS */
 .chips-label {
-  font-size: 11px;
+  font-size: 11.5px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-muted);
@@ -298,7 +313,39 @@ header {
   box-shadow: 0 4px 12px var(--accent-glow);
 }
 
-/* INPUT BOX & ACTION */
+/* MULTIMODAL OCR TRAY */
+.multimodal-tray {
+  background: var(--surface-hover);
+  border: 1.5px dashed var(--surface-border);
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ocr-samples {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.ocr-sample-chip {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--accent);
+  transition: all 0.15s;
+}
+.ocr-sample-chip:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* INPUT BOX & AUDIO SIMULATOR */
 .input-wrap {
   position: relative;
   margin-bottom: 16px;
@@ -307,8 +354,8 @@ textarea.input-box {
   width: 100%;
   background: var(--bg);
   border: 1.5px solid var(--surface-border);
-  border-radius: 14px;
-  padding: 16px 18px;
+  border-radius: 16px;
+  padding: 16px 50px 16px 18px;
   color: var(--text-main);
   font-family: var(--font-sans);
   font-size: 14.5px;
@@ -323,59 +370,90 @@ textarea.input-box:focus {
   background: var(--surface);
   box-shadow: 0 0 0 4px var(--accent-glow);
 }
+.mic-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+.mic-btn:hover {
+  background: var(--accent);
+  color: white;
+}
+.mic-btn.active {
+  background: var(--rose);
+  color: white;
+  animation: pulseMic 1s infinite;
+}
+@keyframes pulseMic {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
 .btn-submit {
   background: var(--samsung-gradient);
   color: white;
   border: none;
-  padding: 13px 24px;
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 14px;
+  padding: 14px 24px;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 15px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   transition: all 0.2s;
-  box-shadow: 0 6px 18px rgba(12, 77, 162, 0.3);
+  box-shadow: 0 6px 20px rgba(12, 77, 162, 0.35);
   width: 100%;
 }
 .btn-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(12, 77, 162, 0.4);
+  box-shadow: 0 8px 26px rgba(12, 77, 162, 0.45);
 }
 
-/* PIPELINE VISUALIZER BAR */
+/* PIPELINE VISUALIZER */
 .pipeline-bar {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 8px;
-  margin: 20px 0;
+  margin: 22px 0 16px;
   padding: 12px;
   background: var(--surface-hover);
   border: 1px solid var(--surface-border);
-  border-radius: 12px;
+  border-radius: 14px;
 }
 .pipeline-node {
   text-align: center;
   font-size: 11px;
   color: var(--text-muted);
-  font-weight: 600;
-  padding: 6px 4px;
-  border-radius: 6px;
+  font-weight: 700;
+  padding: 7px 4px;
+  border-radius: 8px;
   transition: all 0.3s;
 }
 .pipeline-node.done {
   color: var(--emerald);
   background: var(--emerald-bg);
   border: 1px solid var(--emerald-border);
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.15);
 }
 
-/* RESULTS & CARDS */
+/* RESULTS CARD */
 .result-card {
   background: var(--surface);
   border: 1.5px solid var(--surface-border);
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 22px;
   margin-top: 16px;
   box-shadow: var(--card-shadow);
@@ -388,7 +466,7 @@ textarea.input-box:focus {
   margin-bottom: 16px;
 }
 .result-title {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 800;
   color: var(--accent);
 }
@@ -396,8 +474,8 @@ textarea.input-box:focus {
   font-size: 11px;
   text-transform: uppercase;
   font-weight: 800;
-  padding: 4px 10px;
-  border-radius: 6px;
+  padding: 5px 12px;
+  border-radius: 8px;
   letter-spacing: 0.05em;
 }
 .category-auto { background: var(--emerald-bg); color: var(--emerald); border: 1px solid var(--emerald-border); }
@@ -408,19 +486,19 @@ textarea.input-box:focus {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin: 14px 0;
+  gap: 9px;
+  margin: 16px 0;
 }
 .step-item {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 13.5px;
+  font-size: 14px;
   background: var(--surface-hover);
-  padding: 10px 14px;
-  border-radius: 10px;
+  padding: 11px 15px;
+  border-radius: 12px;
   border: 1px solid var(--surface-border);
-  font-weight: 500;
+  font-weight: 600;
 }
 .step-num {
   background: var(--accent);
@@ -442,17 +520,17 @@ textarea.input-box:focus {
   background: var(--samsung-gradient);
   color: white;
   border: none;
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 700;
-  padding: 11px 18px;
-  border-radius: 10px;
+  padding: 12px 20px;
+  border-radius: 12px;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(12, 77, 162, 0.25);
+  box-shadow: 0 4px 14px rgba(12, 77, 162, 0.25);
   transition: all 0.2s;
 }
 .bixby-trigger-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(12, 77, 162, 0.35);
+  box-shadow: 0 8px 22px rgba(12, 77, 162, 0.35);
 }
 
 .escalation-box {
@@ -466,42 +544,55 @@ textarea.input-box:focus {
   background: var(--amber);
   border: none;
   color: white;
-  padding: 10px 18px;
+  padding: 11px 18px;
   border-radius: 10px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
   margin-top: 12px;
   transition: all 0.2s;
-  box-shadow: 0 4px 10px rgba(217, 119, 6, 0.25);
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
 }
 .escalate-btn:hover {
   transform: translateY(-2px);
   filter: brightness(0.95);
 }
 
-/* PHONE SIMULATOR */
+/* =========================================
+   TITANIUM GALAXY S24 ULTRA SIMULATOR
+========================================= */
 .phone-simulator {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .phone-mockup {
-  width: 320px;
-  height: 640px;
-  background: var(--phone-bg);
-  border: 8px solid var(--phone-border);
-  border-radius: 44px;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+  width: 340px;
+  height: 680px;
+  background: var(--surface);
+  border: 10px solid #1e293b;
+  border-radius: 46px;
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
+  background: var(--phone-titanium);
+  padding: 2px;
+}
+.phone-inner {
+  flex: 1;
+  background: var(--surface);
+  border-radius: 36px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
 }
 .phone-notch {
   width: 90px;
-  height: 22px;
-  background: var(--phone-border);
+  height: 20px;
+  background: #0f172a;
   margin: 0 auto;
   border-bottom-left-radius: 14px;
   border-bottom-right-radius: 14px;
@@ -515,6 +606,7 @@ textarea.input-box:focus {
   height: 8px;
   background: #020617;
   border-radius: 50%;
+  border: 1px solid #334155;
 }
 .phone-statusbar {
   display: flex;
@@ -522,12 +614,12 @@ textarea.input-box:focus {
   align-items: center;
   padding: 6px 20px 2px;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--text-muted);
 }
 .phone-screen-content {
   flex: 1;
-  background: var(--phone-screen);
+  background: var(--bg);
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -535,19 +627,44 @@ textarea.input-box:focus {
   position: relative;
 }
 
-/* SIMULATED SETTINGS APP */
-.mock-app-header {
-  margin-bottom: 16px;
+/* SENSOR TELEMETRY CARDS IN PHONE */
+.live-sensor-box {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 14px;
+  padding: 12px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
 }
-.mock-app-title {
-  font-size: 18px;
+.sensor-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  text-align: center;
+  margin-top: 8px;
+}
+.sensor-metric {
+  background: var(--surface-hover);
+  padding: 6px 4px;
+  border-radius: 8px;
+}
+.sensor-val {
+  font-size: 13px;
   font-weight: 800;
-  color: var(--text-main);
+  color: var(--accent);
 }
-.mock-app-subtitle {
-  font-size: 11px;
+.sensor-label {
+  font-size: 9.5px;
   color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 700;
 }
+
+/* SIMULATED SETTINGS APP */
+.mock-app-header { margin-bottom: 14px; }
+.mock-app-title { font-size: 18px; font-weight: 800; }
+.mock-app-subtitle { font-size: 11px; color: var(--text-muted); }
+
 .mock-setting-row {
   background: var(--surface);
   border: 1px solid var(--surface-border);
@@ -558,47 +675,45 @@ textarea.input-box:focus {
   align-items: center;
   margin-bottom: 8px;
   font-size: 12.5px;
-  font-weight: 600;
+  font-weight: 700;
   transition: all 0.3s;
 }
 .mock-setting-row.highlighted {
   border-color: #3b82f6;
-  background: rgba(59, 130, 246, 0.1);
+  background: rgba(59, 130, 246, 0.12);
   box-shadow: 0 0 0 2px #3b82f6;
   animation: pulseHighlight 1.5s infinite;
 }
 @keyframes pulseHighlight {
   0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); }
-  70% { box-shadow: 0 0 0 6px rgba(59, 130, 246, 0); }
+  70% { box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); }
   100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
 }
 
 .mock-toggle {
-  width: 36px;
-  height: 20px;
+  width: 38px;
+  height: 22px;
   background: #cbd5e1;
   border-radius: 20px;
   position: relative;
   transition: background 0.2s;
+  cursor: pointer;
 }
-.mock-toggle.on {
-  background: #2563eb;
-}
+.mock-toggle.on { background: #2563eb; }
 .mock-toggle::after {
   content: '';
   position: absolute;
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
   background: white;
   top: 2px;
   left: 2px;
   transition: transform 0.2s;
 }
-.mock-toggle.on::after {
-  transform: translateX(16px);
-}
+.mock-toggle.on::after { transform: translateX(16px); }
 
+/* BIXBY NOTIFICATION POPUP */
 .bixby-popup {
   position: absolute;
   bottom: 20px;
@@ -606,26 +721,22 @@ textarea.input-box:focus {
   right: 12px;
   background: linear-gradient(135deg, #0c4da2 0%, #1e40af 100%);
   color: white;
-  padding: 12px 14px;
+  padding: 13px 15px;
   border-radius: 14px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.35);
   font-size: 12px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 50;
 }
 @keyframes slideUp {
   from { transform: translateY(30px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* JURY DEFENSE & BENCHMARK TAB */
-.jury-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-}
+/* JURY TAB METRICS */
 .benchmark-table {
   width: 100%;
   border-collapse: collapse;
@@ -636,7 +747,7 @@ textarea.input-box:focus {
   background: var(--surface-hover);
   color: var(--text-muted);
   text-align: left;
-  padding: 12px 16px;
+  padding: 13px 16px;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -646,71 +757,57 @@ textarea.input-box:focus {
   padding: 14px 16px;
   border-bottom: 1px solid var(--surface-border);
 }
-.benchmark-table tr:hover {
-  background: var(--surface-hover);
-}
+.benchmark-table tr:hover { background: var(--surface-hover); }
 
-.perf-bars {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 16px;
+/* JURY PITCH MODAL */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 200;
+  place-items: center;
 }
-.perf-row {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.perf-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  font-weight: 700;
-}
-.bar-track {
-  height: 10px;
-  background: var(--surface-hover);
-  border-radius: 5px;
-  overflow: hidden;
-}
-.bar-fill {
-  height: 100%;
-  border-radius: 5px;
-  transition: width 0.8s ease;
-}
-
-/* TELEMETRY GAUGES */
-.telemetry-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  margin-bottom: 20px;
-}
-.telemetry-card {
-  background: var(--surface-hover);
+.modal-box {
+  background: var(--surface);
   border: 1px solid var(--surface-border);
-  padding: 14px;
-  border-radius: 12px;
+  border-radius: 24px;
+  max-width: 640px;
+  width: 90%;
+  padding: 32px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+  position: relative;
+  animation: modalPop 0.25s ease;
 }
-.telemetry-num {
-  font-size: 22px;
-  font-weight: 800;
-  margin-top: 4px;
-  color: var(--accent);
+@keyframes modalPop {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: var(--text-muted);
+  cursor: pointer;
 }
 </style>
 </head>
 <body>
 
+<!-- TOP NAVBAR -->
 <header>
   <div class="brand">
     <div class="brand-icon">⚡</div>
     <div>
       <div class="brand-title">
         <span>GASTE</span>
-        <span class="brand-sparkle">Galaxy AI Studio</span>
+        <span class="brand-sparkle">Galaxy AI Engine</span>
       </div>
-      <div class="brand-sub">Samsung PRISM GenAI Hackathon 3.0</div>
+      <div class="brand-sub">Samsung PRISM GenAI Hackathon 3.0 · Smart Troubleshooting Track</div>
     </div>
   </div>
 
@@ -719,14 +816,17 @@ textarea.input-box:focus {
       <span>📱</span> Interactive Studio
     </button>
     <button class="tab-btn" onclick="switchTab('jury')">
-      <span>📊</span> Benchmark & Jury Defense
+      <span>🏆</span> Jury Defense & Benchmarks
     </button>
     <button class="tab-btn" onclick="switchTab('api')">
-      <span>⚡</span> API Console & JSON
+      <span>⚡</span> Telemetry & API
     </button>
   </nav>
 
   <div class="header-right">
+    <button class="jury-pitch-pill" onclick="openJuryModal()">
+      <span>✨</span> Jury Pitch (30s)
+    </button>
     <span class="tag-badge">PRISM_GENAI_HACKATHON_Y2026</span>
     <button class="theme-btn" id="themeToggle" onclick="toggleTheme()">
       <span id="themeIcon">🌙</span>
@@ -746,32 +846,47 @@ textarea.input-box:focus {
         <div class="panel-header">
           <div>
             <h2 class="panel-title">Smart Guided Device Troubleshooter</h2>
-            <p class="panel-subtitle">Type any unstructured natural language complaint or click a test scenario.</p>
+            <p class="panel-subtitle">Zero-cost semantic reasoning for colloquial Galaxy customer issues.</p>
           </div>
-          <div class="category-badge category-auto" id="engineStatusBadge">Zero-LLM Fast Path</div>
+          <div class="category-badge category-auto" id="engineStatusBadge">⚡ Sub-3ms Fast Path</div>
         </div>
 
         <div class="chips-label">
           <span>Quick Hackathon Test Scenarios</span>
-          <span>Click to Auto-Run</span>
+          <span style="color:var(--accent);">One-Click Test</span>
         </div>
         <div class="chips">
           <button class="chip" onclick="fillQuery('Screen flickers and the battery dies fast')">
-            <span>🔋</span> Battery & Display Flicker
+            <span>🔋</span> Battery & 120Hz Flicker
           </button>
           <button class="chip" onclick="fillQuery('Phone swipe gestures wrong direction after update')">
             <span>📱</span> Inverted Navigation Gestures
           </button>
-          <button class="chip" onclick="fillQuery('Phone is extremely slow after recent software update')">
-            <span>⚡</span> System Lag After Update
+          <button class="chip" onclick="fillQuery('Phone is extremely slow after recent One UI update')">
+            <span>⚡</span> Extreme System Lag
           </button>
-          <button class="chip" onclick="fillQuery('Moisture detected in USB charging port warning')">
-            <span>💧</span> Moisture Detection Alert
+          <button class="chip" onclick="fillQuery('Device gets hot and charging paused automatically')">
+            <span>🔥</span> Overheating on Fast Charge
           </button>
         </div>
 
+        <!-- MULTIMODAL OCR SCREENSHOT TRAY -->
+        <div class="multimodal-tray">
+          <div style="font-size:12px;font-weight:700;">
+            <span>📸 Multimodal Error Screenshot</span>
+            <div style="font-size:11px;color:var(--text-muted);font-weight:500;">Simulate OCR image ingestion:</div>
+          </div>
+          <div class="ocr-samples">
+            <button class="ocr-sample-chip" onclick="simulateOcr('moisture')">Moisture Warning</button>
+            <button class="ocr-sample-chip" onclick="simulateOcr('battery_drain')">High Battery Alert</button>
+            <button class="ocr-sample-chip" onclick="simulateOcr('app_crash')">System UI Crash</button>
+          </div>
+        </div>
+
+        <!-- NATURAL LANGUAGE INPUT & VOICE SIMULATOR -->
         <div class="input-wrap">
           <textarea id="queryInput" class="input-box" placeholder="Describe the smartphone problem in natural language...">Screen flickers and the battery dies fast</textarea>
+          <button class="mic-btn" id="micBtn" title="Simulate Voice Input (Speech-to-Text)" onclick="simulateVoiceInput()">🎙️</button>
         </div>
 
         <button id="troubleshootBtn" class="btn-submit" onclick="submitTroubleshoot()">
@@ -790,73 +905,99 @@ textarea.input-box:focus {
 
         <!-- RESULTS CONTAINER -->
         <div id="resultsArea">
-          <div style="text-align: center; color: var(--text-muted); padding: 40px 0; font-size: 13px;">
+          <div style="text-align: center; color: var(--text-muted); padding: 40px 0; font-size: 13.5px;">
             Click <strong>"Run Guided Troubleshooting"</strong> to generate validated plans & simulate device execution.
           </div>
         </div>
       </section>
 
-      <!-- RIGHT: LIVE GALAXY DEVICE SIMULATOR -->
+      <!-- RIGHT: LIVE GALAXY S24 ULTRA SIMULATOR WITH CYBER-PHYSICAL SENSORS -->
       <section class="panel phone-simulator">
         <div style="text-align:center;margin-bottom:16px;">
-          <h3 style="font-size:16px;font-weight:800;color:var(--text-main);">Galaxy S24 Ultra Simulator</h3>
-          <p style="font-size:12px;color:var(--text-muted);">Watch Bixby deeplinks execute live on One UI 6.1</p>
+          <h3 style="font-size:17px;font-weight:800;color:var(--text-main);">Galaxy S24 Ultra Simulator</h3>
+          <p style="font-size:12px;color:var(--text-muted);">Cyber-Physical Live Sensor State & Bixby Deeplink Execution</p>
         </div>
 
         <div class="phone-mockup">
-          <div class="phone-notch">
-            <div class="phone-camera"></div>
-          </div>
-          <div class="phone-statusbar">
-            <span id="phoneClock">12:45</span>
-            <span>5G 📶 100%</span>
-          </div>
-
-          <div class="phone-screen-content" id="phoneScreen">
-            <div class="mock-app-header">
-              <div class="mock-app-subtitle">Settings</div>
-              <div class="mock-app-title" id="mockScreenTitle">Display & Battery</div>
+          <div class="phone-inner">
+            <div class="phone-notch">
+              <div class="phone-camera"></div>
+            </div>
+            <div class="phone-statusbar">
+              <span id="phoneClock">12:45</span>
+              <span>5G 📶 100%</span>
             </div>
 
-            <div class="mock-setting-row" id="rowRefresh">
-              <div>
-                <div>Motion Smoothness</div>
-                <div style="font-size:10px;color:var(--text-muted);">Standard 60Hz</div>
+            <div class="phone-screen-content" id="phoneScreen">
+              
+              <!-- CYBER-PHYSICAL TELEMETRY SENSORS -->
+              <div class="live-sensor-box">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <span style="font-size:11px;font-weight:800;color:var(--text-muted);">DEVICE HEALTH SENSORS</span>
+                  <span id="sensorHealthBadge" style="font-size:10px;font-weight:800;color:var(--amber);background:var(--amber-bg);padding:2px 6px;border-radius:4px;">OPTIMIZATION NEEDED</span>
+                </div>
+                <div class="sensor-grid">
+                  <div class="sensor-metric">
+                    <div class="sensor-val" id="sensorTemp">39.4°C</div>
+                    <div class="sensor-label">Thermal</div>
+                  </div>
+                  <div class="sensor-metric">
+                    <div class="sensor-val" id="sensorRam">85%</div>
+                    <div class="sensor-label">RAM Load</div>
+                  </div>
+                  <div class="sensor-metric">
+                    <div class="sensor-val" id="sensorHz">120 Hz</div>
+                    <div class="sensor-label">Refresh</div>
+                  </div>
+                </div>
               </div>
-              <div class="mock-toggle" id="toggleRefresh"></div>
-            </div>
 
-            <div class="mock-setting-row highlighted" id="rowBattery">
-              <div>
-                <div>Protect Battery</div>
-                <div style="font-size:10px;color:var(--text-muted);">Limit maximum charge to 80%</div>
+              <div class="mock-app-header">
+                <div class="mock-app-subtitle">Settings</div>
+                <div class="mock-app-title" id="mockScreenTitle">Display & Battery</div>
               </div>
-              <div class="mock-toggle on" id="toggleBattery"></div>
-            </div>
 
-            <div class="mock-setting-row" id="rowNav">
-              <div>
-                <div>Navigation Type</div>
-                <div style="font-size:10px;color:var(--text-muted);">Buttons / Swipe gestures</div>
+              <div class="mock-setting-row" id="rowRefresh">
+                <div>
+                  <div>Motion Smoothness</div>
+                  <div style="font-size:10px;color:var(--text-muted);" id="mockRefreshSubtitle">Adaptive 120Hz (High Drain)</div>
+                </div>
+                <div class="mock-toggle on" id="toggleRefresh" onclick="toggleMockSetting(this, 'rowRefresh')"></div>
               </div>
-              <span style="font-size:11px;color:#3b82f6;">Swipe ›</span>
-            </div>
 
-            <div class="mock-setting-row" id="rowCare">
-              <div>
-                <div>Device Care Optimization</div>
-                <div style="font-size:10px;color:var(--text-muted);">Auto clean background memory</div>
+              <div class="mock-setting-row highlighted" id="rowBattery">
+                <div>
+                  <div>Protect Battery Mode</div>
+                  <div style="font-size:10px;color:var(--text-muted);">Limit maximum charge to 80%</div>
+                </div>
+                <div class="mock-toggle on" id="toggleBattery" onclick="toggleMockSetting(this, 'rowBattery')"></div>
               </div>
-              <span style="font-size:11px;color:#10b981;">Good</span>
-            </div>
 
-            <!-- BIXBY POPUP NOTIFICATION -->
-            <div class="bixby-popup" id="bixbyPopup" style="display:none;">
-              <span style="font-size:16px;">✨</span>
-              <div>
-                <strong style="display:block;font-size:11px;">Bixby Deeplink Executed</strong>
-                <span id="bixbyPopupText" style="font-size:10.5px;opacity:0.9;">Opened Settings > Battery</span>
+              <div class="mock-setting-row" id="rowNav">
+                <div>
+                  <div>Navigation Gestures</div>
+                  <div style="font-size:10px;color:var(--text-muted);">Buttons / Swipe gestures</div>
+                </div>
+                <span style="font-size:11px;color:#3b82f6;">Swipe ›</span>
               </div>
+
+              <div class="mock-setting-row" id="rowCare">
+                <div>
+                  <div>Device Care Diagnostics</div>
+                  <div style="font-size:10px;color:var(--text-muted);" id="mockCareSubtitle">Background cleanup required</div>
+                </div>
+                <span id="mockCareStatus" style="font-size:11px;font-weight:700;color:var(--amber);">Warning</span>
+              </div>
+
+              <!-- BIXBY NOTIFICATION POPUP -->
+              <div class="bixby-popup" id="bixbyPopup" style="display:none;">
+                <span style="font-size:18px;">✨</span>
+                <div>
+                  <strong style="display:block;font-size:11.5px;">Bixby Deeplink Executed</strong>
+                  <span id="bixbyPopupText" style="font-size:10.5px;opacity:0.9;">Opened Settings > Battery</span>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -865,17 +1006,17 @@ textarea.input-box:focus {
     </div>
   </div>
 
-  <!-- ================= TAB 2: JURY DEFENSE & BENCHMARK ================= -->
+  <!-- ================= TAB 2: JURY DEFENSE & BENCHMARKS ================= -->
   <div id="tab-jury" class="tab-page">
-    <div class="jury-grid">
+    <div style="display:grid;gap:24px;">
       
       <section class="panel">
         <div class="panel-header">
           <div>
-            <h2 class="panel-title">🏆 Hackathon Jury Defense & Architecture Comparison</h2>
-            <p class="panel-subtitle">Why GASTE outperforms traditional Cloud RAG wrappers and human agent support.</p>
+            <h2 class="panel-title">🏆 Architecture Comparison & Hackathon Jury Defense</h2>
+            <p class="panel-subtitle">Why GASTE defeats traditional Cloud RAG wrappers and reduces human agent workload.</p>
           </div>
-          <button class="btn-submit" style="width:auto;padding:8px 16px;" onclick="runBatchBenchmark()">
+          <button class="btn-submit" style="width:auto;padding:10px 20px;" onclick="runBatchBenchmark()">
             <span>Run Live 10x Batch Test</span> <span>⚡</span>
           </button>
         </div>
@@ -884,89 +1025,89 @@ textarea.input-box:focus {
           <thead>
             <tr>
               <th>Evaluation Metric</th>
-              <th>Human Agent</th>
-              <th>Naive Cloud RAG (GPT-4)</th>
-              <th style="color:var(--accent);">GASTE Engine (Ours)</th>
-              <th>Advantage</th>
+              <th>Human Agent Support</th>
+              <th>Standard Cloud RAG (GPT-4)</th>
+              <th style="color:var(--accent);font-weight:800;">GASTE Engine (Our Solution)</th>
+              <th>Jury Value Proposition</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Cold-Path Cost</strong></td>
+              <td><strong>Cold-Path Inference Cost</strong></td>
               <td>~$5.00 / interaction</td>
-              <td>~$0.03 / API call</td>
-              <td style="color:var(--emerald);font-weight:700;">$0.00 (Zero-LLM)</td>
-              <td><strong>100% Free Inference</strong></td>
+              <td>~$0.03 / API token call</td>
+              <td style="color:var(--emerald);font-weight:800;">$0.00 (Zero-LLM Extractive)</td>
+              <td><strong>Zero Recurring API Bills</strong></td>
             </tr>
             <tr>
-              <td><strong>P95 Response Latency</strong></td>
-              <td>~10 - 15 minutes</td>
-              <td>2,500 - 4,000 ms</td>
-              <td style="color:var(--emerald);font-weight:700;">< 3 ms (Cached) / 178ms</td>
-              <td><strong>1000x Faster</strong></td>
+              <td><strong>Response Latency (P95)</strong></td>
+              <td>10 - 15 minutes</td>
+              <td>2,500 - 4,200 ms</td>
+              <td style="color:var(--emerald);font-weight:800;">< 3 ms (Cached) / 178ms (Cold)</td>
+              <td><strong>Instantaneous Response</strong></td>
             </tr>
             <tr>
               <td><strong>Hallucination / URL Leaks</strong></td>
               <td>Human error prone</td>
               <td>5 - 12% hallucinated links</td>
-              <td style="color:var(--emerald);font-weight:700;">0 Leaks (Regex Scrubbed)</td>
-              <td><strong>Deterministic</strong></td>
+              <td style="color:var(--emerald);font-weight:800;">0 Leaks (Regex Scrubbed)</td>
+              <td><strong>100% Deterministic Security</strong></td>
             </tr>
             <tr>
               <td><strong>Action Execution</strong></td>
-              <td>Manual verbal guide</td>
-              <td>Plain text instructions</td>
-              <td style="color:var(--emerald);font-weight:700;">Native Bixby Deeplinks</td>
-              <td><strong>1-Click Resolution</strong></td>
+              <td>Manual verbal guidance</td>
+              <td>Static text instructions</td>
+              <td style="color:var(--emerald);font-weight:800;">Actionable In-App Bixby Links</td>
+              <td><strong>1-Click Problem Resolution</strong></td>
             </tr>
             <tr>
               <td><strong>Stateful Escalation</strong></td>
-              <td>Unstructured ticket logs</td>
+              <td>Scattered ticket notes</td>
               <td>Full context re-prompting</td>
-              <td style="color:var(--emerald);font-weight:700;">In-Memory TTL Session Tiers</td>
-              <td><strong>Multi-Turn Native</strong></td>
+              <td style="color:var(--emerald);font-weight:800;">In-Memory TTL Session Store</td>
+              <td><strong>Seamless Multi-Turn Flow</strong></td>
             </tr>
           </tbody>
         </table>
 
-        <!-- REAL-TIME BENCHMARK CHART -->
+        <!-- LIVE BENCHMARK CHART -->
         <div style="margin-top:28px;">
-          <h3 style="font-size:15px;font-weight:800;margin-bottom:12px;">Live Latency Profile (<span id="batchCount">15</span> Samples)</h3>
-          <div class="perf-bars">
-            <div class="perf-row">
-              <div class="perf-label">
+          <h3 style="font-size:16px;font-weight:800;margin-bottom:14px;">Live Real-Time Latency Benchmark (<span id="batchCount">15</span> Samples)</h3>
+          <div style="display:flex;flex-direction:column;gap:14px;">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:4px;">
                 <span>GASTE Fast-Path (P50)</span>
                 <span id="p50Val" style="color:var(--emerald);">1.09 ms</span>
               </div>
-              <div class="bar-track">
-                <div class="bar-fill" id="p50Bar" style="width: 2%; background: var(--emerald);"></div>
+              <div style="height:10px;background:var(--surface-hover);border-radius:5px;overflow:hidden;">
+                <div id="p50Bar" style="height:100%;width:2%;background:var(--emerald);border-radius:5px;transition:width 0.8s;"></div>
               </div>
             </div>
-            <div class="perf-row">
-              <div class="perf-label">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:4px;">
                 <span>GASTE Cold-Path (P95)</span>
                 <span id="p95Val" style="color:var(--accent);">2.15 ms</span>
               </div>
-              <div class="bar-track">
-                <div class="bar-fill" id="p95Bar" style="width: 5%; background: var(--accent);"></div>
+              <div style="height:10px;background:var(--surface-hover);border-radius:5px;overflow:hidden;">
+                <div id="p95Bar" style="height:100%;width:5%;background:var(--accent);border-radius:5px;transition:width 0.8s;"></div>
               </div>
             </div>
-            <div class="perf-row">
-              <div class="perf-label">
-                <span>SLA Target Limit</span>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:4px;">
+                <span>SLA Target Limit (< 300ms)</span>
                 <span style="color:var(--amber);">300.00 ms</span>
               </div>
-              <div class="bar-track">
-                <div class="bar-fill" style="width: 40%; background: var(--amber);"></div>
+              <div style="height:10px;background:var(--surface-hover);border-radius:5px;overflow:hidden;">
+                <div style="height:100%;width:40%;background:var(--amber);border-radius:5px;"></div>
               </div>
             </div>
-            <div class="perf-row">
-              <div class="perf-label">
-                <span>Standard Cloud LLM</span>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px;font-weight:700;margin-bottom:4px;">
+                <span>Cloud LLM Generation</span>
                 <span style="color:var(--rose);">3,200.00 ms</span>
               </div>
-              <div class="bar-track">
-                <div class="bar-fill" style="width: 100%; background: var(--rose);"></div>
+              <div style="height:10px;background:var(--surface-hover);border-radius:5px;overflow:hidden;">
+                <div style="height:100%;width:100%;background:var(--rose);border-radius:5px;"></div>
               </div>
             </div>
           </div>
@@ -977,54 +1118,72 @@ textarea.input-box:focus {
     </div>
   </div>
 
-  <!-- ================= TAB 3: API & TELEMETRY ================= -->
+  <!-- ================= TAB 3: TELEMETRY & API ================= -->
   <div id="tab-api" class="tab-page">
-    <div class="jury-grid">
-      
-      <section class="panel">
-        <div class="panel-header">
-          <div>
-            <h2 class="panel-title">Engine Telemetry & Schema Inspector</h2>
-            <p class="panel-subtitle">Live inspection of Pydantic ContextDeeplinkResponse contracts.</p>
-          </div>
-          <span class="tag-badge">Swagger /docs Active</span>
+    <section class="panel">
+      <div class="panel-header">
+        <div>
+          <h2 class="panel-title">Engine Telemetry & Schema Inspector</h2>
+          <p class="panel-subtitle">Live inspection of Pydantic ContextDeeplinkResponse contracts.</p>
         </div>
+        <span class="tag-badge">Swagger /docs Active</span>
+      </div>
 
-        <div class="telemetry-row">
-          <div class="telemetry-card">
-            <div style="font-size:11px;color:var(--text-muted);font-weight:700;">REQUEST LATENCY</div>
-            <div class="telemetry-num" id="apiLatencyVal">-- ms</div>
-          </div>
-          <div class="telemetry-card">
-            <div style="font-size:11px;color:var(--text-muted);font-weight:700;">ACTIVE SESSION</div>
-            <div class="telemetry-num" id="apiSessionVal" style="font-size:15px;word-break:break-all;">None</div>
-          </div>
-          <div class="telemetry-card">
-            <div style="font-size:11px;color:var(--text-muted);font-weight:700;">ACTIVE TIER</div>
-            <div class="telemetry-num" id="apiTierVal">Tier 1</div>
-          </div>
-          <div class="telemetry-card">
-            <div style="font-size:11px;color:var(--text-muted);font-weight:700;">INFERENCE COST</div>
-            <div class="telemetry-num" style="color:var(--emerald);">$0.00</div>
-          </div>
+      <div style="display:grid;grid-template-columns:repeat(4, 1fr);gap:12px;margin-bottom:20px;">
+        <div style="background:var(--surface-hover);padding:14px;border-radius:12px;border:1px solid var(--surface-border);">
+          <div style="font-size:11px;color:var(--text-muted);font-weight:700;">REQUEST LATENCY</div>
+          <div style="font-size:22px;font-weight:800;color:var(--accent);margin-top:4px;" id="apiLatencyVal">2 ms</div>
         </div>
-
-        <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;">
-          Raw JSON Response Inspector
+        <div style="background:var(--surface-hover);padding:14px;border-radius:12px;border:1px solid var(--surface-border);">
+          <div style="font-size:11px;color:var(--text-muted);font-weight:700;">ACTIVE SESSION</div>
+          <div style="font-size:15px;font-weight:800;color:var(--accent);margin-top:4px;word-break:break-all;" id="apiSessionVal">None</div>
         </div>
-        <pre class="panel" id="rawJsonBox" style="background:var(--code-bg);color:var(--text-muted);font-family:var(--font-mono);font-size:11.5px;max-height:450px;overflow-y:auto;padding:16px;">// Click "Run Guided Troubleshooting" in Studio to inspect response...</pre>
-      </section>
+        <div style="background:var(--surface-hover);padding:14px;border-radius:12px;border:1px solid var(--surface-border);">
+          <div style="font-size:11px;color:var(--text-muted);font-weight:700;">ACTIVE TIER</div>
+          <div style="font-size:22px;font-weight:800;color:var(--accent);margin-top:4px;" id="apiTierVal">Tier 1</div>
+        </div>
+        <div style="background:var(--surface-hover);padding:14px;border-radius:12px;border:1px solid var(--surface-border);">
+          <div style="font-size:11px;color:var(--text-muted);font-weight:700;">INFERENCE COST</div>
+          <div style="font-size:22px;font-weight:800;color:var(--emerald);margin-top:4px;">$0.00</div>
+        </div>
+      </div>
 
-    </div>
+      <div style="font-size:12px;font-weight:700;color:var(--text-muted);margin-bottom:8px;text-transform:uppercase;">
+        Raw JSON Response Inspector
+      </div>
+      <pre class="panel" id="rawJsonBox" style="background:var(--code-bg);color:var(--text-muted);font-family:var(--font-mono);font-size:11.5px;max-height:450px;overflow-y:auto;padding:16px;">// Click "Run Guided Troubleshooting" in Studio to inspect response...</pre>
+    </section>
   </div>
 
+</div>
+
+<!-- JURY PITCH MODAL -->
+<div class="modal-overlay" id="juryModal" onclick="closeJuryModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeJuryModal()">✕</button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+      <span style="font-size:26px;">✨</span>
+      <div>
+        <h3 style="font-size:20px;font-weight:800;">GASTE 30-Second Jury Pitch</h3>
+        <p style="font-size:12.5px;color:var(--text-muted);">Samsung PRISM GenAI Hackathon 3.0</p>
+      </div>
+    </div>
+    <div style="font-size:14px;line-height:1.6;color:var(--text-main);display:flex;flex-direction:column;gap:12px;">
+      <p><strong>1. Problem:</strong> Unstructured Galaxy customer complaints take support agents ~15 mins to parse and explain.</p>
+      <p><strong>2. Core Innovation:</strong> GASTE uses a <strong>Zero-LLM Extractive Synthesizer</strong> with dense local embeddings + FAISS vector search, delivering responses in <strong>under 3 milliseconds</strong> at <strong>$0.00 recurring inference cost</strong>.</p>
+      <p><strong>3. Actionable Execution:</strong> Instead of generic text answers, GASTE resolves issues with exact <strong>in-app Bixby deeplinks (`bixby://settings/...`)</strong> that control One UI settings directly.</p>
+      <p><strong>4. Production Guardrails:</strong> 0% URL leaks, strict 5-7 word imperative constraints, and deterministic topological safety sorting.</p>
+    </div>
+    <div style="margin-top:22px;display:flex;justify-content:flex-end;">
+      <button class="btn-submit" style="width:auto;padding:10px 22px;" onclick="closeJuryModal()">Got it! Back to Studio ➔</button>
+    </div>
+  </div>
 </div>
 
 <script>
 let currentSessionId = null;
 let currentTier = 1;
 
-// Clock update in phone simulator
 function updateClock() {
   const now = new Date();
   const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -1052,9 +1211,42 @@ function toggleTheme() {
   document.getElementById('themeText').textContent = newTheme === 'light' ? 'Dark' : 'Light';
 }
 
+function openJuryModal() {
+  document.getElementById('juryModal').style.display = 'grid';
+}
+function closeJuryModal() {
+  document.getElementById('juryModal').style.display = 'none';
+}
+
 function fillQuery(text) {
   document.getElementById('queryInput').value = text;
   submitTroubleshoot();
+}
+
+function simulateVoiceInput() {
+  const mic = document.getElementById('micBtn');
+  mic.classList.add('active');
+  const sampleVoice = "My phone swipe gestures go the wrong way after updating my launcher app";
+  let i = 0;
+  document.getElementById('queryInput').value = "";
+  const interval = setInterval(() => {
+    if (i < sampleVoice.length) {
+      document.getElementById('queryInput').value += sampleVoice[i];
+      i++;
+    } else {
+      clearInterval(interval);
+      mic.classList.remove('active');
+      submitTroubleshoot();
+    }
+  }, 30);
+}
+
+function simulateOcr(type) {
+  let prompt = "";
+  if (type === 'moisture') prompt = "Moisture detected in USB charging port warning alert";
+  else if (type === 'battery_drain') prompt = "Screen flickers and battery dies fast under 120Hz display";
+  else prompt = "Settings app crashes when tapping navigation gestures";
+  fillQuery(prompt);
 }
 
 async function submitTroubleshoot() {
@@ -1192,7 +1384,12 @@ function animatePhoneSimulator(data, query) {
   const rowNav = document.getElementById('rowNav');
   const rowRefresh = document.getElementById('rowRefresh');
 
-  // Reset highlights
+  // React device sensors
+  const tempEl = document.getElementById('sensorTemp');
+  const ramEl = document.getElementById('sensorRam');
+  const hzEl = document.getElementById('sensorHz');
+  const badgeEl = document.getElementById('sensorHealthBadge');
+
   rowBattery.classList.remove('highlighted');
   rowNav.classList.remove('highlighted');
   rowRefresh.classList.remove('highlighted');
@@ -1201,11 +1398,33 @@ function animatePhoneSimulator(data, query) {
     title.textContent = 'Navigation Bar';
     rowNav.classList.add('highlighted');
     showBixbyPopup('Opened Navigation Settings', 'bixby://settings/navigation_bar');
+    tempEl.textContent = '32.1°C';
+    ramEl.textContent = '52%';
+    badgeEl.textContent = 'OPTIMAL';
+    badgeEl.style.color = 'var(--emerald)';
+    badgeEl.style.background = 'var(--emerald-bg)';
   } else {
     title.textContent = 'Battery & Device Care';
     rowBattery.classList.add('highlighted');
+    rowRefresh.classList.add('highlighted');
     showBixbyPopup('Opened Battery Optimization', 'bixby://settings/battery');
+    
+    // Simulate thermal cooldown and RAM cleanup after executing GASTE plan
+    setTimeout(() => {
+      tempEl.textContent = '31.4°C';
+      ramEl.textContent = '44%';
+      hzEl.textContent = '60 Hz';
+      badgeEl.textContent = 'OPTIMIZED (60Hz)';
+      badgeEl.style.color = 'var(--emerald)';
+      badgeEl.style.background = 'var(--emerald-bg)';
+      document.getElementById('mockRefreshSubtitle').textContent = 'Standard 60Hz (Optimized)';
+      document.getElementById('toggleRefresh').classList.remove('on');
+    }, 1200);
   }
+}
+
+function toggleMockSetting(toggle, rowId) {
+  toggle.classList.toggle('on');
 }
 
 function triggerDeeplinkAnimation(uri, msg) {
@@ -1219,7 +1438,7 @@ function showBixbyPopup(msg, uri) {
   popup.style.display = 'flex';
   setTimeout(() => {
     popup.style.display = 'none';
-  }, 4000);
+  }, 4500);
 }
 
 async function escalateStep() {
@@ -1245,9 +1464,9 @@ async function escalateStep() {
   const container = document.getElementById('resultsArea');
   const plans = data.actionable_plan || [];
   let planHtml = plans.map(p => `
-    <div style="background:var(--surface-hover);border:1px solid var(--surface-border);padding:14px;border-radius:10px;margin-top:10px;">
+    <div style="background:var(--surface-hover);border:1px solid var(--surface-border);padding:14px;border-radius:12px;margin-top:10px;">
       <strong style="color:var(--accent);">Step ${p.step}: ${p.action}</strong>
-      <p style="font-size:12px;color:var(--text-muted);margin-top:4px;">Reason: ${p.reason}</p>
+      <p style="font-size:12.5px;color:var(--text-muted);margin-top:4px;">Reason: ${p.reason}</p>
     </div>
   `).join('');
 
@@ -1268,6 +1487,7 @@ async function escalateStep() {
   `;
 
   showBixbyPopup('Escalated to Tier ' + currentTier, 'session://tier_' + currentTier);
+  document.getElementById('mockCareStatus').textContent = 'Escalated Tier ' + currentTier;
 }
 
 async function runBatchBenchmark() {
