@@ -144,57 +144,63 @@ body {
    ========================================================= */
 header {
   border-bottom: 1px solid var(--border-subtle);
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(20px);
   position: sticky;
   top: 0;
   z-index: 100;
-  padding: 14px 32px;
+  height: 66px;
+  padding: 0 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-shadow: var(--shadow-sm);
+  white-space: nowrap;
 }
 [data-theme="dark"] header {
-  background: rgba(15, 21, 35, 0.92);
+  background: rgba(15, 21, 35, 0.94);
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
+  flex-shrink: 0;
 }
 .brand-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
   background: var(--samsung-gradient);
   display: grid;
   place-items: center;
   color: white;
-  font-size: 22px;
-  box-shadow: 0 6px 18px var(--samsung-glow);
+  font-size: 20px;
+  box-shadow: 0 4px 14px var(--samsung-glow);
   position: relative;
+  flex-shrink: 0;
 }
 .brand-title {
   font-weight: 800;
-  font-size: 19px;
+  font-size: 18px;
   letter-spacing: -0.02em;
   display: flex;
   align-items: center;
   gap: 8px;
+  line-height: 1.2;
 }
 .brand-sparkle {
   background: var(--galaxy-ai-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 800;
 }
 .brand-sub {
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 600;
+  line-height: 1.2;
 }
 
 /* NAVIGATION TABS */
@@ -202,24 +208,27 @@ header {
   display: flex;
   align-items: center;
   background: var(--surface-subtle);
-  padding: 5px;
-  border-radius: 14px;
+  padding: 4px;
+  border-radius: 12px;
   border: 1px solid var(--border-subtle);
   gap: 4px;
+  flex-shrink: 0;
 }
 .tab-btn {
   background: transparent;
   border: none;
   color: var(--text-muted);
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 700;
-  padding: 9px 20px;
-  border-radius: 10px;
+  padding: 7px 18px;
+  border-radius: 9px;
   cursor: pointer;
   transition: all 0.2s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
+  white-space: nowrap;
+  line-height: 1;
 }
 .tab-btn.active {
   background: var(--surface);
@@ -234,22 +243,25 @@ header {
 .header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  flex-shrink: 0;
 }
 .jury-pitch-pill {
   background: var(--galaxy-ai-gradient);
   color: white;
   border: none;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 800;
-  padding: 8px 16px;
+  padding: 8px 14px;
   border-radius: 9999px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 7px;
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+  gap: 6px;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
   transition: transform 0.2s;
+  line-height: 1;
 }
 .jury-pitch-pill:hover { transform: translateY(-1px); }
 
@@ -258,11 +270,36 @@ header {
   border: 1px solid rgba(12, 77, 162, 0.2);
   color: var(--samsung-blue);
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 700;
-  padding: 7px 13px;
-  border-radius: 9px;
+  padding: 7px 11px;
+  border-radius: 8px;
+  white-space: nowrap;
+  line-height: 1;
 }
+[data-theme="dark"] .tag-badge {
+  background: rgba(56, 189, 248, 0.1);
+  border-color: rgba(56, 189, 248, 0.25);
+  color: var(--samsung-vivid);
+}
+
+.theme-btn {
+  background: var(--surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  line-height: 1;
+  transition: all 0.15s;
+}
+.theme-btn:hover { background: var(--surface-hover); }
 [data-theme="dark"] .tag-badge {
   background: rgba(56, 189, 248, 0.1);
   border-color: rgba(56, 189, 248, 0.25);
@@ -948,18 +985,18 @@ textarea.input-box:focus {
     <div>
       <div class="brand-title">
         <span>GASTE</span>
-        <span class="brand-sparkle">Galaxy AI Studio</span>
+        <span class="brand-sparkle">Galaxy AI</span>
       </div>
-      <div class="brand-sub">Samsung PRISM GenAI Hackathon 3.0 · Smart Troubleshooting Track</div>
+      <div class="brand-sub">Samsung PRISM 3.0</div>
     </div>
   </div>
 
   <nav class="nav-tabs">
     <button class="tab-btn active" onclick="switchTab('studio')">
-      <span>📱</span> Interactive Studio
+      <span>📱</span> Studio
     </button>
     <button class="tab-btn" onclick="switchTab('jury')">
-      <span>🏆</span> Jury Defense & Benchmarks
+      <span>🏆</span> Jury Defense
     </button>
     <button class="tab-btn" onclick="switchTab('api')">
       <span>⚡</span> Telemetry & API
@@ -968,9 +1005,9 @@ textarea.input-box:focus {
 
   <div class="header-right">
     <button class="jury-pitch-pill" onclick="openJuryModal()">
-      <span>✨</span> Jury Pitch (30s)
+      <span>✨</span> Jury Pitch
     </button>
-    <span class="tag-badge">PRISM_GENAI_HACKATHON_Y2026</span>
+    <span class="tag-badge">PRISM_Y2026</span>
     <button class="theme-btn" id="themeToggle" onclick="toggleTheme()">
       <span id="themeIcon">🌙</span>
       <span id="themeText">Dark</span>
