@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,36 +9,72 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
+  --bg: #f8fafc;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #e0e7ff 0%, #f8fafc 55%);
+  --surface: #ffffff;
+  --surface-hover: #f1f5f9;
+  --surface-border: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --accent: #2563eb;
+  --accent-light: #eff6ff;
+  --accent-glow: rgba(37, 99, 235, 0.15);
+  --samsung-blue: #0c4da2;
+  --cyan: #0284c7;
+  --emerald: #059669;
+  --emerald-bg: #ecfdf5;
+  --emerald-border: #a7f3d0;
+  --amber: #d97706;
+  --amber-bg: #fffbeb;
+  --amber-border: #fde68a;
+  --rose: #e11d48;
+  --rose-bg: #fff1f2;
+  --rose-border: #fecdd3;
+  --card-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+  --code-bg: #f1f5f9;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+[data-theme="dark"] {
   --bg: #0b0f17;
+  --bg-gradient: radial-gradient(circle at 50% 0%, #172554 0%, #0b0f17 55%);
   --surface: #121824;
   --surface-hover: #172030;
   --surface-border: #1e293b;
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
-  --accent: #2563eb;
-  --accent-glow: #3b82f640;
-  --samsung-blue: #0c4da2;
-  --cyan: #06b6d4;
-  --cyan-glow: #06b6d430;
+  --accent: #3b82f6;
+  --accent-light: #1e293b;
+  --accent-glow: rgba(59, 130, 246, 0.25);
   --emerald: #10b981;
   --emerald-bg: #064e3b40;
+  --emerald-border: rgba(16, 185, 129, 0.3);
   --amber: #f59e0b;
-  --rose: #f43f5e;
-  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --amber-bg: rgba(245, 158, 11, 0.08);
+  --amber-border: rgba(245, 158, 11, 0.35);
+  --rose: #fb7185;
+  --rose-bg: rgba(244, 63, 94, 0.1);
+  --rose-border: rgba(244, 63, 94, 0.3);
+  --card-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+  --code-bg: #070a10;
 }
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  background: radial-gradient(circle at 50% 0%, #172554 0%, #0b0f17 55%);
+  background: var(--bg-gradient);
+  background-color: var(--bg);
   color: var(--text-main);
   font-family: var(--font-sans);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  transition: background 0.2s ease, color 0.2s ease;
 }
+
 header {
   border-bottom: 1px solid var(--surface-border);
-  background: rgba(18, 24, 36, 0.75);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(16px);
   position: sticky;
   top: 0;
@@ -47,25 +83,31 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
 }
+[data-theme="dark"] header {
+  background: rgba(18, 24, 36, 0.8);
+}
+
 .brand {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 .brand-badge {
-  background: linear-gradient(135deg, #2563eb, #06b6d4);
+  background: linear-gradient(135deg, #0c4da2, #0284c7);
   color: white;
   font-weight: 800;
   font-size: 14px;
-  padding: 6px 10px;
-  border-radius: 8px;
-  box-shadow: 0 0 16px var(--cyan-glow);
+  padding: 6px 11px;
+  border-radius: 9px;
+  box-shadow: 0 2px 8px rgba(12, 77, 162, 0.25);
 }
 .brand-title {
   font-weight: 800;
   font-size: 17px;
   letter-spacing: -0.02em;
+  color: var(--text-main);
 }
 .brand-sub {
   color: var(--text-muted);
@@ -81,8 +123,8 @@ header {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  background: var(--emerald-bg);
+  border: 1px solid var(--emerald-border);
   padding: 5px 12px;
   border-radius: 9999px;
   font-size: 12px;
@@ -94,16 +136,34 @@ header {
   height: 7px;
   background: var(--emerald);
   border-radius: 50%;
-  box-shadow: 0 0 8px var(--emerald);
+  box-shadow: 0 0 6px var(--emerald);
 }
 .tag-badge {
-  background: #1e293b;
-  border: 1px solid #334155;
-  color: #cbd5e1;
+  background: var(--accent-light);
+  border: 1px solid var(--surface-border);
+  color: var(--accent);
   font-family: var(--font-mono);
   font-size: 11px;
+  font-weight: 600;
   padding: 5px 10px;
   border-radius: 6px;
+}
+.theme-btn {
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  color: var(--text-main);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+.theme-btn:hover {
+  background: var(--surface-hover);
 }
 
 main {
@@ -124,7 +184,7 @@ main {
   border: 1px solid var(--surface-border);
   border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+  box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: column;
 }
@@ -138,6 +198,7 @@ main {
   display: flex;
   align-items: center;
   gap: 10px;
+  color: var(--text-main);
 }
 .panel-subtitle {
   color: var(--text-muted);
@@ -151,7 +212,7 @@ main {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--text-muted);
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 8px;
 }
 .chips {
@@ -161,49 +222,52 @@ main {
   margin-bottom: 16px;
 }
 .chip {
-  background: #1e293b;
-  border: 1px solid #334155;
-  color: #e2e8f0;
+  background: var(--surface-hover);
+  border: 1px solid var(--surface-border);
+  color: var(--text-main);
   font-size: 12px;
-  padding: 6px 12px;
+  font-weight: 500;
+  padding: 7px 13px;
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.15s ease;
 }
 .chip:hover {
-  background: #2563eb;
-  border-color: #3b82f6;
+  background: var(--accent);
+  border-color: var(--accent);
   color: white;
   transform: translateY(-1px);
+  box-shadow: 0 4px 10px var(--accent-glow);
 }
 
 /* Input Form */
 .input-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 18px;
 }
 textarea.input-box {
   width: 100%;
-  background: #0b0f17;
-  border: 1px solid #334155;
+  background: var(--bg);
+  border: 1px solid var(--surface-border);
   border-radius: 12px;
   padding: 14px 16px;
-  color: white;
+  color: var(--text-main);
   font-family: var(--font-sans);
   font-size: 14px;
   resize: vertical;
   min-height: 85px;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
 }
 textarea.input-box:focus {
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px var(--accent-glow);
 }
 .btn-submit {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  background: linear-gradient(135deg, #0c4da2, #2563eb);
   color: white;
   border: none;
   padding: 12px 20px;
@@ -216,11 +280,12 @@ textarea.input-box:focus {
   justify-content: center;
   gap: 8px;
   transition: all 0.2s;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+  box-shadow: 0 4px 14px rgba(12, 77, 162, 0.25);
 }
 .btn-submit:hover {
-  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+  background: linear-gradient(135deg, #093c80, #1d4ed8);
   transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(12, 77, 162, 0.35);
 }
 
 /* Results Section */
@@ -231,12 +296,13 @@ textarea.input-box:focus {
   flex: 1;
 }
 .result-card {
-  background: #0f172a;
-  border: 1px solid #1e293b;
-  border-radius: 12px;
-  padding: 18px;
+  background: var(--surface);
+  border: 1px solid var(--surface-border);
+  border-radius: 14px;
+  padding: 20px;
   margin-bottom: 16px;
-  animation: fadeIn 0.3s ease;
+  box-shadow: var(--card-shadow);
+  animation: fadeIn 0.25s ease;
 }
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
@@ -246,28 +312,28 @@ textarea.input-box:focus {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 .result-title {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
-  color: #38bdf8;
+  color: var(--accent);
 }
 .category-badge {
   font-size: 11px;
   text-transform: uppercase;
   font-weight: 700;
-  padding: 3px 8px;
+  padding: 4px 10px;
   border-radius: 6px;
   letter-spacing: 0.05em;
 }
-.category-auto { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-.category-manual { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-.category-critical { background: rgba(244, 63, 94, 0.2); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.3); }
+.category-auto { background: var(--emerald-bg); color: var(--emerald); border: 1px solid var(--emerald-border); }
+.category-manual { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+.category-critical { background: var(--rose-bg); color: var(--rose); border: 1px solid var(--rose-border); }
 
 .action-desc {
-  font-size: 13px;
-  color: #cbd5e1;
+  font-size: 13.5px;
+  color: var(--text-muted);
   margin-bottom: 14px;
 }
 .steps-list {
@@ -282,15 +348,17 @@ textarea.input-box:focus {
   align-items: center;
   gap: 10px;
   font-size: 13px;
-  background: #1e293b;
-  padding: 8px 12px;
+  background: var(--surface-hover);
+  padding: 9px 13px;
   border-radius: 8px;
+  color: var(--text-main);
+  border: 1px solid var(--surface-border);
 }
 .step-num {
-  background: #3b82f6;
+  background: var(--accent);
   color: white;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -304,37 +372,46 @@ textarea.input-box:focus {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(135deg, #0284c7, #0369a1);
+  background: linear-gradient(135deg, #0c4da2, #0284c7);
   color: white;
   text-decoration: none;
   font-size: 12px;
   font-weight: 700;
-  padding: 8px 14px;
+  padding: 9px 15px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
+  box-shadow: 0 2px 8px rgba(12, 77, 162, 0.25);
+  transition: all 0.15s ease;
+}
+.bixby-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(12, 77, 162, 0.35);
 }
 
 /* Escalation Box */
 .escalation-box {
-  background: rgba(245, 158, 11, 0.08);
-  border: 1px dashed rgba(245, 158, 11, 0.35);
+  background: var(--amber-bg);
+  border: 1px dashed var(--amber-border);
   border-radius: 12px;
   padding: 16px;
-  margin-top: 16px;
+  margin-top: 18px;
 }
 .escalate-btn {
-  background: #d97706;
+  background: var(--amber);
   border: none;
   color: white;
-  padding: 8px 14px;
+  padding: 9px 15px;
   border-radius: 8px;
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
   margin-top: 10px;
   transition: all 0.15s;
+  box-shadow: 0 2px 6px rgba(217, 119, 6, 0.25);
 }
-.escalate-btn:hover { background: #b45309; }
+.escalate-btn:hover {
+  filter: brightness(0.9);
+  transform: translateY(-1px);
+}
 
 /* Right Console Panel */
 .metrics-row {
@@ -344,7 +421,7 @@ textarea.input-box:focus {
   margin-bottom: 20px;
 }
 .metric-box {
-  background: #0b0f17;
+  background: var(--bg);
   border: 1px solid var(--surface-border);
   padding: 14px;
   border-radius: 10px;
@@ -353,23 +430,24 @@ textarea.input-box:focus {
   font-size: 11px;
   color: var(--text-muted);
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.05em;
 }
 .metric-val {
   font-size: 20px;
   font-weight: 800;
   margin-top: 4px;
-  color: #38bdf8;
+  color: var(--accent);
 }
 
 .json-viewer {
-  background: #070a10;
+  background: var(--code-bg);
   border: 1px solid var(--surface-border);
   border-radius: 10px;
   padding: 14px;
   font-family: var(--font-mono);
   font-size: 11px;
-  color: #94a3b8;
+  color: var(--text-muted);
   height: 380px;
   overflow-y: auto;
   white-space: pre-wrap;
@@ -390,10 +468,13 @@ textarea.input-box:focus {
   <div class="header-actions">
     <div class="status-pill">
       <div class="pulse-dot"></div>
-      <span id="serviceStatus">API Online</span>
+      <span id="serviceStatus">Engine Ready</span>
     </div>
     <span class="tag-badge">PRISM_GENAI_HACKATHON_Y2026</span>
-    <a href="/docs" style="color:#38bdf8;font-size:12px;text-decoration:none;font-weight:600;">Swagger Docs ↗</a>
+    <button class="theme-btn" id="themeToggle" onclick="toggleTheme()">
+      <span id="themeIcon">🌙</span>
+      <span id="themeText">Dark</span>
+    </button>
   </div>
 </header>
 
@@ -456,7 +537,7 @@ textarea.input-box:focus {
 
     <div class="chips-label" style="display:flex;justify-content:space-between;">
       <span>REST Response Payload</span>
-      <span style="font-family:var(--font-mono);font-size:10px;color:#38bdf8;">ContextDeeplinkResponse</span>
+      <span style="font-family:var(--font-mono);font-size:10px;color:var(--accent);">ContextDeeplinkResponse</span>
     </div>
     <div class="json-viewer" id="jsonViewer">// Awaiting request execution...</div>
   </section>
@@ -465,6 +546,15 @@ textarea.input-box:focus {
 <script>
 let currentSessionId = null;
 let currentTier = 1;
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const isLight = html.getAttribute('data-theme') === 'light';
+  const newTheme = isLight ? 'dark' : 'light';
+  html.setAttribute('data-theme', newTheme);
+  document.getElementById('themeIcon').textContent = newTheme === 'light' ? '🌙' : '☀️';
+  document.getElementById('themeText').textContent = newTheme === 'light' ? 'Dark' : 'Light';
+}
 
 function fillQuery(text) {
   document.getElementById('queryInput').value = text;
@@ -504,7 +594,7 @@ async function submitTroubleshoot() {
     renderResults(data);
   } catch (err) {
     document.getElementById('resultsArea').innerHTML = `
-      <div style="color:var(--rose);padding:20px;background:#2d1217;border-radius:8px;">
+      <div style="color:var(--rose);padding:20px;background:var(--rose-bg);border:1px solid var(--rose-border);border-radius:8px;">
         Error connecting to GASTE API: ${err.message}
       </div>`;
   } finally {
@@ -535,9 +625,9 @@ function renderResults(data) {
   ctx.actions.forEach((act, idx) => {
     const catClass = act.category === 'auto' ? 'category-auto' : act.category === 'critical' ? 'category-critical' : 'category-manual';
     html += `
-      <div style="margin-top:14px;border-top:1px solid #1e293b;padding-top:12px;">
+      <div style="margin-top:14px;border-top:1px solid var(--surface-border);padding-top:12px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-          <strong style="font-size:14px;color:#f8fafc;">${act.actionName}</strong>
+          <strong style="font-size:14px;color:var(--text-main);">${act.actionName}</strong>
           <span class="category-badge ${catClass}">${act.category}</span>
         </div>
         <p class="action-desc">${act.description}</p>
@@ -552,10 +642,10 @@ function renderResults(data) {
 
       if (grp.actionableDeeplink) {
         html += `
-          <div style="margin-top:8px;">
+          <div style="margin-top:10px;">
             <a class="bixby-btn" href="${grp.actionableDeeplink.deeplink}" target="_blank">
               <span>Bixby Action: ${grp.actionableDeeplink.message || 'Open Settings'}</span>
-              <span style="font-family:var(--font-mono);font-size:11px;opacity:0.8;">(${grp.actionableDeeplink.deeplink})</span>
+              <span style="font-family:var(--font-mono);font-size:11px;opacity:0.9;">(${grp.actionableDeeplink.deeplink})</span>
             </a>
           </div>
         `;
@@ -568,7 +658,7 @@ function renderResults(data) {
   // Interactive Escalation box
   html += `
     <div class="escalation-box">
-      <strong style="color:#fbbf24;font-size:13px;">Did this fix your issue?</strong>
+      <strong style="color:var(--amber);font-size:13px;">Did this fix your issue?</strong>
       <p style="color:var(--text-muted);font-size:12px;margin-top:3px;">If the steps above did not resolve the problem, trigger stateful escalation to the next tier.</p>
       <button class="escalate-btn" onclick="escalateStep()">Step didn't work ➔ Escalate to Tier ${currentTier + 1}</button>
     </div>
@@ -609,22 +699,22 @@ async function escalateStep() {
     const container = document.getElementById('resultsArea');
     const plans = data.actionable_plan || [];
     let planHtml = plans.map(p => `
-      <div style="background:#1e293b;padding:12px;border-radius:8px;margin-top:8px;">
-        <strong style="color:#38bdf8;">Step ${p.step}: ${p.action}</strong>
+      <div style="background:var(--surface-hover);border:1px solid var(--surface-border);padding:12px;border-radius:8px;margin-top:8px;">
+        <strong style="color:var(--accent);">Step ${p.step}: ${p.action}</strong>
         <p style="font-size:12px;color:var(--text-muted);margin-top:4px;">Reason: ${p.reason}</p>
       </div>
     `).join('');
 
     container.innerHTML = `
-      <div class="result-card" style="border-color:#f59e0b;">
+      <div class="result-card" style="border-color:var(--amber-border);">
         <div class="result-head">
-          <div class="result-title" style="color:#fbbf24;">Stateful Escalation: Tier ${data.current_tier}</div>
+          <div class="result-title" style="color:var(--amber);">Stateful Escalation: Tier ${data.current_tier}</div>
           <span class="category-badge category-manual">Escalated</span>
         </div>
-        <p style="font-size:13px;color:#cbd5e1;margin-bottom:12px;">${data.message}</p>
+        <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">${data.message}</p>
         ${planHtml}
         <div class="escalation-box" style="margin-top:16px;">
-          <strong style="color:#fbbf24;font-size:13px;">Still unresolved?</strong>
+          <strong style="color:var(--amber);font-size:13px;">Still unresolved?</strong>
           <p style="color:var(--text-muted);font-size:12px;margin-top:3px;">Trigger escalation to the next tier.</p>
           <button class="escalate-btn" onclick="escalateStep()">Escalate to Tier ${data.current_tier + 1} ➔</button>
         </div>
