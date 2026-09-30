@@ -228,14 +228,38 @@ X-Session-ID: <uuid-string>
 
 ```json
 {
-  "session_id": "uuid-string",
-  "feedback": "Step 1 didn't fix it"
+  "session_id": "sess_d7acc1f0",
+  "query": "Step did not fix the problem"
+}
+```
+
+#### Response Body
+
+```json
+{
+  "session_id": "sess_d7acc1f0",
+  "current_tier": 2,
+  "status": "in_progress",
+  "message": "Tier 1 did not resolve battery drain. GASTE statefully escalated to Tier 2: Deep Sleep Background Apps & Adaptive Power Limits.",
+  "actionable_plan": [
+    {
+      "step": 1,
+      "action": "Restrict Background App Execution & Enable Deep Sleeping Apps",
+      "reason": "Tier 1 basic battery settings did not halt discharge rate; aggressive background processes detected."
+    },
+    {
+      "step": 2,
+      "action": "Enable Adaptive Power Saving & Limit CPU Frequency to 70%",
+      "reason": "Throttles heavy background loops dynamically while preserving display smoothness."
+    }
+  ],
+  "retrieval_used": false
 }
 ```
 
 #### Behavior
 
-Mutates the active workflow state in memory and returns the next escalation tier without repeating the complete retrieval pipeline.
+Mutates the active workflow state in memory and advances to the next escalation tier (Tier 1 ➔ Tier 2 ➔ Tier 3 Specialist Diagnostic) without repeating the complete retrieval pipeline. Automatically synchronizes with cyber-physical telemetry sensors and Bixby deeplinks.
 
 ### 3. Health Check
 
