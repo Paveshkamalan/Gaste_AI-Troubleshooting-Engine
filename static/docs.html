@@ -1361,7 +1361,7 @@ textarea.input-box:focus {
 </div>
 
 <script>
-let currentSessionId = null;
+let currentSessionId = 'sess_' + Math.random().toString(36).substring(2, 10);
 let currentTier = 1;
 
 function updateClock() {
@@ -1550,7 +1550,10 @@ function renderResults(data, query) {
     <div class="escalation-box">
       <strong style="color:var(--cat-manual-text);font-size:14px;">Did this fix your issue?</strong>
       <p style="color:var(--text-muted);font-size:12.5px;margin-top:4px;font-weight:500;">If this plan did not resolve the problem, trigger stateful escalation to the next tier.</p>
-      <button class="escalate-btn" onclick="escalateStep()">Step didn't work ➔ Escalate to Tier ${currentTier + 1}</button>
+      <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;">
+        <button class="escalate-btn" onclick="escalateStep()">Step didn't work ➔ Escalate to Tier ${currentTier + 1}</button>
+        <button class="escalate-btn" style="background:var(--cat-auto-bg);color:var(--cat-auto-text);border-color:var(--cat-auto-border);" onclick="resolveSession()">Issue Resolved! 🎉</button>
+      </div>
     </div>
   </div>`;
 
@@ -1700,52 +1703,140 @@ function showBixbyPopup(msg, uri) {
 }
 
 async function escalateStep() {
-  if (!currentSessionId) return;
+  if (!currentSessionId) {
+    currentSessionId = 'sess_' + Math.random().toString(36).substring(2, 10);
+  }
 
-  const res = await fetch('/v1/troubleshoot/interactive', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Session-ID': currentSessionId
-    },
-    body: JSON.stringify({
-      session_id: currentSessionId,
-      query: "Step did not fix the problem"
-    })
+  const escalateButtons = document.querySelectorAll('.escalate-btn');
+  escalateButtons.forEach(b => {
+    b.disabled = true;
+    b.innerHTML = '<span style="display:inline-block;animation:spin 0.8s linear infinite;margin-right:6px;">⚡</span> Escalating to Tier ' + (currentTier + 1) + '...';
   });
 
-  const data = await res.json();
-  currentTier = data.current_tier;
-  document.getElementById('apiTierVal').textContent = 'Tier ' + currentTier;
-  document.getElementById('rawJsonBox').textContent = JSON.stringify(data, null, 2);
+  try {
+    const res = await fetch('/v1/troubleshoot/interactive', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Session-ID': currentSessionId
+      },
+      body: JSON.stringify({
+        session_id: currentSessionId,
+        query: "Step did not fix the problem"
+      })
+    });
 
-  const container = document.getElementById('resultsArea');
-  const plans = data.actionable_plan || [];
-  let planHtml = plans.map(p => `
-    <div style="background:var(--surface-subtle);border:1.5px solid var(--border-subtle);padding:14px 16px;border-radius:12px;margin-top:10px;">
-      <strong style="color:var(--samsung-navy);">Step ${p.step}: ${p.action}</strong>
-      <p style="font-size:13px;color:var(--text-secondary);margin-top:4px;font-weight:500;">Reason: ${p.reason}</p>
-    </div>
-  `).join('');
+    const data = await res.json();
+    currentTier = data.current_tier;
+    currentSessionId = data.session_id || currentSessionId;
+    
+    document.getElementById('apiSessionVal').textContent = currentSessionId;
+    document.getElementById('apiTierVal').textContent = 'Tier ' + currentTier;
+    document.getElementById('rawJsonBox').textContent = JSON.stringify(data, null, 2);
 
-  container.innerHTML = `
-    <div class="result-card" style="border-color:var(--cat-manual-border);">
-      <div class="result-head">
-        <div class="result-title" style="color:var(--cat-manual-text);">Stateful Escalation: Tier ${data.current_tier}</div>
-        <span class="category-badge category-manual">Tier ${data.current_tier} Active</span>
+    const container = document.getElementById('resultsArea');
+    const plans = data.actionable_plan || [];
+    
+    let planHtml = plans.map(p => `
+      <div style="background:var(--surface-subtle);border:1.5px solid var(--border-subtle);padding:14px 16px;border-radius:12px;margin-top:10px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+          <strong style="color:var(--samsung-navy);font-size:14px;">Step ${p.step}: ${p.action}</strong>
+          <span class="category-badge category-auto" style="font-size:11px;">Tier ${currentTier} Automated</span>
+        </div>
+        <p style="font-size:13px;color:var(--text-secondary);margin-top:4px;font-weight:500;">Reason: ${p.reason}</p>
+        <button class="bixby-trigger-btn" style="margin-top:10px;padding:8px 14px;font-size:12px;" onclick="triggerDeeplinkAnimation('bixby://tier_${currentTier}/auto_action', 'Applied: ${p.action}')">
+          <span>Execute Deeplink via Bixby</span>
+          <span style="font-family:var(--font-mono);font-size:11px;opacity:0.9;">(bixby://settings/tier_${currentTier})</span>
+        </button>
       </div>
-      <p style="font-size:14px;color:var(--text-secondary);font-weight:500;">${data.message}</p>
-      ${planHtml}
+    `).join('');
+
+    const escalationActions = currentTier < 3 ? `
       <div class="escalation-box" style="margin-top:18px;">
-        <strong style="color:var(--cat-manual-text);font-size:14px;">Still unresolved?</strong>
-        <p style="color:var(--text-muted);font-size:12.5px;margin-top:4px;font-weight:500;">Trigger next level deep escalation tier.</p>
-        <button class="escalate-btn" onclick="escalateStep()">Escalate to Tier ${data.current_tier + 1} ➔</button>
+        <strong style="color:var(--cat-manual-text);font-size:14px;">Did Tier ${currentTier} fix the problem?</strong>
+        <p style="color:var(--text-muted);font-size:12.5px;margin-top:4px;font-weight:500;">If this plan still did not resolve the problem, trigger stateful escalation to Tier ${currentTier + 1}.</p>
+        <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+          <button class="escalate-btn" onclick="escalateStep()">Step didn't work ➔ Escalate to Tier ${currentTier + 1}</button>
+          <button class="escalate-btn" style="background:var(--cat-auto-bg);color:var(--cat-auto-text);border-color:var(--cat-auto-border);" onclick="resolveSession()">Issue Resolved! 🎉</button>
+        </div>
       </div>
+    ` : `
+      <div class="escalation-box" style="margin-top:18px;border-color:var(--cat-auto-border);background:var(--cat-auto-bg);">
+        <strong style="color:var(--cat-auto-text);font-size:14px;">Tier 3 Specialist Ticket Dispatched</strong>
+        <p style="color:var(--text-secondary);font-size:12.5px;margin-top:4px;font-weight:500;">Samsung Authorized Support telemetry attached to ticket #SAM-${currentSessionId.toUpperCase().slice(-6)}. Diagnostic report transmitted successfully.</p>
+        <button class="escalate-btn" style="margin-top:12px;background:var(--samsung-blue);color:#fff;" onclick="resolveSession()">Close Ticket / Issue Resolved 🎉</button>
+      </div>
+    `;
+
+    container.innerHTML = `
+      <div class="result-card" style="border-color:var(--cat-manual-border);animation:fadeIn 0.3s ease;">
+        <div class="result-head">
+          <div class="result-title" style="color:var(--cat-manual-text);">Stateful Escalation: Tier ${data.current_tier} Active</div>
+          <span class="category-badge category-manual">Tier ${data.current_tier} Active</span>
+        </div>
+        <p style="font-size:14px;color:var(--text-secondary);font-weight:500;margin-top:6px;">${data.message}</p>
+        ${planHtml}
+        ${escalationActions}
+      </div>
+    `;
+
+    showBixbyPopup('Escalated to Tier ' + currentTier, 'bixby://escalation/tier_' + currentTier);
+    document.getElementById('mockCareStatus').textContent = 'Escalated Tier ' + currentTier;
+
+    // Synchronize Galaxy S24 Ultra Simulator
+    const title = document.getElementById('mockScreenTitle');
+    const badgeEl = document.getElementById('sensorHealthBadge');
+    const tempEl = document.getElementById('sensorTemp');
+    const ramEl = document.getElementById('sensorRam');
+    if (title) title.textContent = 'Tier ' + currentTier + ' Optimization';
+    if (badgeEl) {
+      badgeEl.textContent = 'TIER ' + currentTier + ' ACTIVE';
+      badgeEl.style.background = 'var(--cat-manual-bg)';
+      badgeEl.style.color = 'var(--cat-manual-text)';
+      badgeEl.style.borderColor = 'var(--cat-manual-border)';
+    }
+    if (tempEl) {
+      tempEl.textContent = (35.2 - currentTier * 1.5).toFixed(1) + '°C';
+      tempEl.style.color = 'var(--sensor-cool-text)';
+    }
+    if (ramEl) {
+      ramEl.textContent = (65 - currentTier * 8) + '%';
+      ramEl.style.color = 'var(--sensor-cool-text)';
+    }
+  } catch (err) {
+    escalateButtons.forEach(b => {
+      b.disabled = false;
+      b.innerHTML = 'Step didn\'t work ➔ Escalate to Tier ' + (currentTier + 1);
+    });
+    alert('Escalation failed: ' + err.message);
+  }
+}
+
+function resolveSession() {
+  showBixbyPopup('Issue Resolved Successfully!', 'bixby://device_care/status=healthy');
+  const container = document.getElementById('resultsArea');
+  container.innerHTML = `
+    <div class="result-card" style="border-color:var(--cat-auto-border);background:var(--cat-auto-bg);text-align:center;padding:32px 20px;">
+      <div style="font-size:42px;margin-bottom:10px;">🎉</div>
+      <h3 style="color:var(--cat-auto-text);font-size:18px;font-weight:700;">Issue Resolved Successfully!</h3>
+      <p style="color:var(--text-secondary);font-size:14px;margin-top:6px;max-width:480px;margin-left:auto;margin-right:auto;">
+        GASTE closed stateful session <strong style="font-family:var(--font-mono);">${currentSessionId}</strong> at Tier ${currentTier}. Device telemetry has returned to optimal Samsung Galaxy baseline.
+      </p>
+      <button class="bixby-trigger-btn" style="margin-top:16px;display:inline-flex;" onclick="runTroubleshoot()">
+        <span>Run Another Diagnostic</span> <span>⚡</span>
+      </button>
     </div>
   `;
-
-  showBixbyPopup('Escalated to Tier ' + currentTier, 'session://tier_' + currentTier);
-  document.getElementById('mockCareStatus').textContent = 'Escalated Tier ' + currentTier;
+  document.getElementById('apiSessionVal').textContent = 'Completed';
+  document.getElementById('apiTierVal').textContent = 'Tier 1 (Reset)';
+  document.getElementById('mockCareStatus').textContent = 'Optimal (All Good)';
+  const badgeEl = document.getElementById('sensorHealthBadge');
+  if (badgeEl) {
+    badgeEl.textContent = 'OPTIMAL';
+    badgeEl.style.color = 'var(--cat-auto-text)';
+    badgeEl.style.background = 'var(--cat-auto-bg)';
+    badgeEl.style.borderColor = 'var(--cat-auto-border)';
+  }
 }
 
 async function runBatchBenchmark() {
