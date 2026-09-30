@@ -809,7 +809,14 @@ textarea.input-box:focus {
   margin-bottom: 8px;
   font-size: 12.5px;
   font-weight: 700;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+}
+.mock-setting-row:hover {
+  border-color: var(--samsung-blue);
+  background: var(--surface-subtle);
+  transform: translateY(-1px);
 }
 .mock-setting-row.highlighted {
   border-color: #2563eb;
@@ -1109,20 +1116,20 @@ textarea.input-box:focus {
                 <div class="mock-toggle on" id="toggleBattery" onclick="toggleMockSetting(this, 'rowBattery')"></div>
               </div>
 
-              <div class="mock-setting-row" id="rowNav">
+              <div class="mock-setting-row" id="rowNav" onclick="toggleNavGestures()" title="Click to test/toggle Navigation gestures">
                 <div>
                   <div>Navigation Gestures</div>
-                  <div style="font-size:10.5px;color:var(--text-muted);">Buttons / Swipe gestures</div>
+                  <div style="font-size:10.5px;color:var(--text-muted);" id="mockNavSubtitle">Buttons / Swipe gestures</div>
                 </div>
-                <span style="font-size:11.5px;color:var(--samsung-blue);font-weight:800;">Swipe ›</span>
+                <span id="mockNavStatus" style="font-size:11.5px;color:var(--samsung-blue);font-weight:800;background:rgba(12,77,162,0.08);padding:4px 9px;border-radius:6px;border:1px solid rgba(12,77,162,0.2);">Swipe ›</span>
               </div>
 
-              <div class="mock-setting-row" id="rowCare">
+              <div class="mock-setting-row" id="rowCare" onclick="runDeviceCareClean()" title="Click to run live Device Care optimization">
                 <div>
                   <div>Device Care Diagnostics</div>
                   <div style="font-size:10.5px;color:var(--text-muted);" id="mockCareSubtitle">Background cleanup required</div>
                 </div>
-                <span id="mockCareStatus" style="font-size:11px;font-weight:800;color:var(--sensor-warm-text);">Warning</span>
+                <span id="mockCareStatus" style="font-size:11px;font-weight:800;color:var(--sensor-warm-text);background:var(--sensor-warm-bg);padding:4px 9px;border-radius:6px;border:1px solid #fde68a;">Warning (Clean)</span>
               </div>
 
               <!-- BIXBY NOTIFICATION POPUP (SAMSUNG BLUE) -->
@@ -1513,12 +1520,77 @@ function renderResults(data, query) {
   container.innerHTML = html;
 }
 
+function toggleNavGestures() {
+  const row = document.getElementById('rowNav');
+  const status = document.getElementById('mockNavStatus');
+  const subtitle = document.getElementById('mockNavSubtitle');
+  const title = document.getElementById('mockScreenTitle');
+  
+  title.textContent = 'Navigation Bar';
+  row.classList.add('highlighted');
+
+  if (status.textContent.includes('Swipe')) {
+    status.textContent = 'Buttons ›';
+    status.style.color = '#0c4da2';
+    status.style.background = 'rgba(12,77,162,0.12)';
+    subtitle.textContent = 'Standard 3-Button Navigation (Re-aligned)';
+    showBixbyPopup('Navigation Switched: 3-Button Navigation Bar', 'bixby://settings/navigation_bar');
+  } else {
+    status.textContent = 'Swipe ›';
+    status.style.color = 'var(--samsung-blue)';
+    status.style.background = 'rgba(12,77,162,0.08)';
+    subtitle.textContent = 'Full Screen Swipe Gestures (Active)';
+    showBixbyPopup('Navigation Switched: Swipe Gestures', 'bixby://settings/navigation_bar');
+  }
+  setTimeout(() => row.classList.remove('highlighted'), 2500);
+}
+
+function runDeviceCareClean() {
+  const row = document.getElementById('rowCare');
+  const status = document.getElementById('mockCareStatus');
+  const subtitle = document.getElementById('mockCareSubtitle');
+  const title = document.getElementById('mockScreenTitle');
+  const tempEl = document.getElementById('sensorTemp');
+  const ramEl = document.getElementById('sensorRam');
+  const badgeEl = document.getElementById('sensorHealthBadge');
+
+  title.textContent = 'Device Care & Diagnostics';
+  row.classList.add('highlighted');
+  status.textContent = 'Cleaning... ⏳';
+  status.style.color = 'var(--samsung-blue)';
+  status.style.background = 'rgba(12,77,162,0.1)';
+  status.style.borderColor = 'var(--samsung-blue)';
+
+  showBixbyPopup('Device Care: Freeing Memory & Clearing Background Cache...', 'bixby://device_care/clean_now');
+
+  setTimeout(() => {
+    status.textContent = '100/100 Good ✅';
+    status.style.color = 'var(--cat-auto-text)';
+    status.style.background = 'var(--cat-auto-bg)';
+    status.style.borderColor = 'var(--cat-auto-border)';
+    subtitle.textContent = 'Optimized · 1.8 GB memory freed';
+
+    tempEl.textContent = '30.8°C';
+    tempEl.style.color = 'var(--sensor-cool-text)';
+    ramEl.textContent = '38%';
+    ramEl.style.color = 'var(--sensor-cool-text)';
+
+    badgeEl.textContent = 'OPTIMIZED (100%)';
+    badgeEl.style.color = 'var(--cat-auto-text)';
+    badgeEl.style.background = 'var(--cat-auto-bg)';
+    badgeEl.style.borderColor = 'var(--cat-auto-border)';
+
+    setTimeout(() => row.classList.remove('highlighted'), 2500);
+  }, 900);
+}
+
 function animatePhoneSimulator(data, query) {
   const lower = query.toLowerCase();
   const title = document.getElementById('mockScreenTitle');
   const rowBattery = document.getElementById('rowBattery');
   const rowNav = document.getElementById('rowNav');
   const rowRefresh = document.getElementById('rowRefresh');
+  const rowCare = document.getElementById('rowCare');
 
   // React device sensors
   const tempEl = document.getElementById('sensorTemp');
@@ -1529,11 +1601,10 @@ function animatePhoneSimulator(data, query) {
   rowBattery.classList.remove('highlighted');
   rowNav.classList.remove('highlighted');
   rowRefresh.classList.remove('highlighted');
+  rowCare.classList.remove('highlighted');
 
-  if (lower.includes('swipe') || lower.includes('nav')) {
-    title.textContent = 'Navigation Bar';
-    rowNav.classList.add('highlighted');
-    showBixbyPopup('Opened Navigation Settings', 'bixby://settings/navigation_bar');
+  if (lower.includes('swipe') || lower.includes('nav') || lower.includes('gesture')) {
+    toggleNavGestures();
     tempEl.textContent = '32.1°C';
     tempEl.style.color = 'var(--sensor-cool-text)';
     ramEl.textContent = '52%';
@@ -1542,8 +1613,10 @@ function animatePhoneSimulator(data, query) {
     badgeEl.style.color = 'var(--cat-auto-text)';
     badgeEl.style.background = 'var(--cat-auto-bg)';
     badgeEl.style.borderColor = 'var(--cat-auto-border)';
+  } else if (lower.includes('slow') || lower.includes('lag') || lower.includes('hot') || lower.includes('heat') || lower.includes('charg') || lower.includes('care')) {
+    runDeviceCareClean();
   } else {
-    title.textContent = 'Battery & Device Care';
+    title.textContent = 'Display & Battery';
     rowBattery.classList.add('highlighted');
     rowRefresh.classList.add('highlighted');
     showBixbyPopup('Opened Battery Optimization', 'bixby://settings/battery');
@@ -1567,6 +1640,12 @@ function animatePhoneSimulator(data, query) {
 
 function toggleMockSetting(toggle, rowId) {
   toggle.classList.toggle('on');
+  const row = document.getElementById(rowId);
+  if (row) {
+    row.classList.add('highlighted');
+    setTimeout(() => row.classList.remove('highlighted'), 1500);
+  }
+  showBixbyPopup('Setting toggled via One UI', 'bixby://settings/' + rowId);
 }
 
 function triggerDeeplinkAnimation(uri, msg) {
