@@ -15,6 +15,7 @@ app = FastAPI(title="GASTE API", docs_url=None, redoc_url="/redoc")
 
 DOCS_PAGE = Path(__file__).parent / "static" / "docs.html"
 
+@app.get("/", include_in_schema=False)
 @app.get("/docs", include_in_schema=False)
 def api_docs():
     return FileResponse(DOCS_PAGE)
