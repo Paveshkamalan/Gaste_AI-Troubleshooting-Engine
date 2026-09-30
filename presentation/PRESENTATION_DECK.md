@@ -51,6 +51,7 @@
 - **Scenario 1:** Natural Language Query ("Screen flickers and battery dies fast") -> Immediate Tier 1 battery optimization & Bixby deeplink.
 - **Scenario 2:** Interactive Escalation ("Step 1 didn't work") -> Stateful progression to Tier 2 escalation without re-querying.
 - **Scenario 3:** Fast-path cache validation & health monitoring.
+- **Demo recording:** [Watch Demo_1.mp4](Demo_1.mp4).
 
 ---
 
