@@ -38,21 +38,22 @@ def health_check():
     return {"status": "ok"}
 
 @app.post("/v1/troubleshoot", response_model=ContextDeeplinkResponse)
-def troubleshoot(request: TroubleshootRequest, response: Response, x_session_id: Optional[str] = Header(None)):
+def troubleshoot(request: TroubleshootRequest, http_response: Response, x_session_id: Optional[str] = Header(None)):
     start_time = time.time()
     
     # Process
-    response = engine.process_troubleshoot_request(request.query, request.siis_response)
+    result = engine.process_troubleshoot_request(request.query, request.siis_response)
     
     # Session handling
-    if not x_session_id:
-        session_id = session_manager.create_session(request.query)
-        response.headers["X-Session-ID"] = session_id
+    sid = x_session_id
+    if not sid:
+        sid = session_manager.create_session(request.query)
+    http_response.headers["X-Session-ID"] = sid
         
     latency_ms = int((time.time() - start_time) * 1000)
     print(f"Request latency: {latency_ms}ms")
     
-    return response
+    return result
 
 @app.post("/v1/troubleshoot/interactive", response_model=InteractiveResponse)
 def interactive_troubleshoot(request: InteractiveRequest, x_session_id: str = Header(...)):
