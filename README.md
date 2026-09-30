@@ -304,7 +304,7 @@ Once the server is running, open the following URL in your browser to test the A
 
 | Deliverable | Location / Details | Status |
 |---|---|---|
-| **Live Cloudflare Deployment** | [https://located-artist-twist-minds.trycloudflare.com](https://located-artist-twist-minds.trycloudflare.com) | 🌐 Deployed Live |
+| **Live Cloudflare Deployment** | [https://interesting-lance-terrain-sewing.trycloudflare.com](https://interesting-lance-terrain-sewing.trycloudflare.com) | 🌐 Deployed Live |
 | **Source Code** | Entire root directory (`main.py`, `engine.py`, `database.py`, etc.) | ✅ Complete |
 | **Requirements** | [`requirements.txt`](file:///Users/kishore/.gemini/antigravity-ide/scratch/Gaste_AI-Troubleshooting-Engine/requirements.txt) | ✅ Complete |
 | **Presentation (PPT)** | [`presentation/PRESENTATION_DECK.md`](file:///Users/kishore/.gemini/antigravity-ide/scratch/Gaste_AI-Troubleshooting-Engine/presentation/PRESENTATION_DECK.md) | ✅ Complete |
