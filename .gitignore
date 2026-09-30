@@ -20,3 +20,6 @@ venv.bak/
 indexes/
 *.index
 *.map
+
+cloudflared
+cloudflared.tgz
